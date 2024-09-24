@@ -7,6 +7,7 @@ import {
     internal,
     fromNano,
     WalletContractV4,
+    WalletContractV3R2
 } from "@ton/ton";
 import { deploy } from "./utils/deploy";
 import { printAddress, printDeploy, printHeader, printSeparator } from "./utils/print";
@@ -26,11 +27,13 @@ import { NftItem } from "./output/sample_NftItem";
 
     // Parameters for NFTs
     const OFFCHAIN_CONTENT_PREFIX = 0x01;
-    const string_first = "https://s.getgems.io/nft-staging/c/628f6ab8077060a7a8d52d63/"; // Change to the content URL you prepared
+    const string_first = "https://d2fxuxnkptlo1z.cloudfront.net/web3/ton-test.json"; // Change to the content URL you prepared
     let newContent = beginCell().storeInt(OFFCHAIN_CONTENT_PREFIX, 8).storeStringRefTail(string_first).endCell();
-
-    let mnemonics = (process.env.mnemonics_2 || "").toString(); // 🔴 Change to your own, by creating .env file!
+    console.log('newContents : ', newContent);
+    let mnemonics = (process.env.MNEMONIC || "").toString(); // 🔴 Change to your own, by creating .env file!
+    console.log('mnemonics : ', mnemonics);
     let keyPair = await mnemonicToPrivateKey(mnemonics.split(" "));
+    console.log('keyPair : ', keyPair);
     let secretKey = keyPair.secretKey;
     let workchain = 0;
     let wallet = WalletContractV4.create({ workchain, publicKey: keyPair.publicKey });

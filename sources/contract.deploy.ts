@@ -7,12 +7,12 @@ import { NftCollection } from "./output/sample_NftCollection";
 
 (async () => {
     const OFFCHAIN_CONTENT_PREFIX = 0x01;
-    const string_first = "https://s.getgems.io/nft-staging/c/628f6ab8077060a7a8d52d63/"; // Change to the content URL you prepared
+    const string_first = "https://d2fxuxnkptlo1z.cloudfront.net/web3/ton-test.json"; // Change to the content URL you prepared
     let newContent = beginCell().storeInt(OFFCHAIN_CONTENT_PREFIX, 8).storeStringRefTail(string_first).endCell();
 
     // ===== Parameters =====
     // Replace owner with your address
-    let owner = Address.parse("YOUR ADDRESS"); // 🔴🔴🔴
+    let owner = Address.parse("0QArHRR_YrZVo_KCk6HXrg_KTCXWp4AQkU4VojgHpofk1E7a"); // 🔴🔴🔴
 
     // Prepare the initial code and data for the contract
     let init = await NftCollection.init(owner, newContent, {
@@ -30,7 +30,8 @@ import { NftCollection } from "./output/sample_NftCollection";
     let body = beginCell().storeUint(0, 32).storeStringTail("Mint").endCell();
 
     // Do deploy
-    await deploy(init, deployAmount, body, testnet);
+    const dep = await deploy(init, deployAmount, body, testnet);
+    console.log("deploy : ", dep);
     printHeader("sampleNFT_Contract");
     printAddress(address);
 })();
